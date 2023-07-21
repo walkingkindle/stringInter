@@ -30,27 +30,29 @@ func main() {
 		return
 	}
 
-	// Remove duplicates
-	arr = removeDuplicates(arr)
+	arr = deduplicateInPlace(arr)
 
-	// Sort the array
 	sort.Ints(arr)
 
-	// Output the sorted array
 	fmt.Println("Output:", arr)
 }
 
-func removeDuplicates(arr []int) []int {
-	encountered := make(map[int]bool)
-	result := []int{}
+func deduplicateInPlace(arr []int) []int {
+	if len(arr) == 0 {
+		return arr
+	}
 
-	for _, num := range arr {
-		if !encountered[num] {
-			encountered[num] = true
-			result = append(result, num)
+	sort.Ints(arr)
+
+	uniqueIdx := 0
+
+	for i := 1; i < len(arr); i++ {
+		if arr[i] != arr[uniqueIdx] {
+			uniqueIdx++
+			arr[uniqueIdx] = arr[i]
 		}
 	}
 
-	return result
+	return arr[:uniqueIdx+1]
 }
 
